@@ -1,0 +1,162 @@
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+.container {
+    text-align: center;
+    background: white;
+    padding: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+
+.buttons button, button {
+    font-size: 16px;
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+}
+
+.buttons button:hover, button:hover {
+    background-color: #0056b3;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+input[type="text"], input[type="number"], textarea {
+    width: calc(100% - 22px); 
+    padding: 10px;
+    border: 1px solid #191818;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-size: 14px;
+    box-sizing: border-box; 
+}
+
+input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+    border-color: #007bff; 
+    outline: 3px solid #007bff; 
+    outline-offset: 2px; 
+    outline-style: solid; 
+}
+
+
+select {
+    
+    padding: 10px;
+    border: 1px solid #191818;
+    border-radius: 5px;
+    font-size: 16px; 
+    margin-top: 10px;
+    box-sizing: border-box; 
+    text-align: start;
+}
+
+select:focus {
+    border-color: #007bff;
+}
+
+.dropdown-menu {
+    background-color: white;
+    color: black;
+}
+
+.dark-theme .dropdown-menu {
+    background-color: black;
+    color: white;
+}
+
+@media (max-width: 1200px) {
+    .container {
+        padding: 40px;
+    }
+
+    .buttons button, button {
+        font-size: 15px;
+        padding: 8px 16px;
+    }
+
+    table th, table td {
+        padding: 8px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 30px;
+    }
+
+   
+
+    input[type="text"], input[type="number"], textarea, select {
+        width: calc(100% - 18px); 
+    }
+
+    .buttons button, button {
+        font-size: 14px;
+        padding: 8px 14px;
+    }
+
+    table th, table td {
+        padding: 6px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+    }
+
+    
+
+    input[type="text"], input[type="number"], textarea, select {
+        width: calc(100% - 14px); 
+    }
+
+    .buttons button, button {
+        font-size: 13px;
+        padding: 6px 12px;
+    }
+
+    table th, table td {
+        padding: 4px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+}
+
+

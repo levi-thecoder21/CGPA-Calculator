@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGPA Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>CGPA Calculator</h1>
+    <div class="container">
+        <label for="numSemesters">Enter the total number of semesters:</label>
+        <input type="number" id="numSemesters" min="1" max="12"><br><br>
+        <button id="generateTableBtn">Ok</button>
+        <button id="backBtn">Back</button>
+
+        <form id="semestersForm" style="display:none;" onsubmit="calculateCGPA(event)">
+            <table id="semestersTable">
+                <thead>
+                    <tr>
+                        <th>Semester</th>
+                        <th>Credits hours</th>
+                        <th>GPA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <button type="submit">Calculate CGPA</button>
+        </form>
+
+        <div id="cgpaResult" style="display:none;">
+            <h2>Your CGPA is: <span id="cgpaValue"></span></h2>
+        </div>
+    </div>
+    <script>
+        document.getElementById('generateTableBtn').addEventListener('click', function() {
+            const numSemesters = document.getElementById('numSemesters').value;
+            const semestersForm = document.getElementById('semestersForm');
+            const semestersTable = document.getElementById('semestersTable').getElementsByTagName('tbody')[0];
+
+            if (numSemesters > 0) {
+                semestersForm.style.display = 'block';
+                semestersTable.innerHTML = ''; 
+
+                for (let i = 0; i < numSemesters; i++) {
+                    const row = semestersTable.insertRow();
+                    const cell1 = row.insertCell(0);
+                    const cell2 = row.insertCell(1);
+                    const cell3 = row.insertCell(2);
+
+                    cell1.textContent = `Semester ${i + 1}`;
+                    cell2.innerHTML = `<input type="number" placeholder="Total Credit Hours " name="credits${i + 1}" step="0.1" min="1" required>`;
+                    cell3.innerHTML = `<input type="number" placeholder="Your GPA" name="gpa${i + 1}" step="0.0001" min="0" max="10" required>`;
+                   
+                }
+            } else {
+                alert('Please enter a valid number of semesters.');
+            }
+        });
+
+        document.getElementById('backBtn').addEventListener('click', function() {
+            window.location.href = 'index.html'; 
+        });
+
+        function calculateCGPA(event) {
+            event.preventDefault();
+
+            const form = document.getElementById('semestersForm');
+            const formData = new FormData(form);
+
+            let totalWeightedGPA = 0;
+            let totalCreditHours = 0;
+
+            for (let [name, value] of formData.entries()) {
+                if (name.startsWith('gpa')) {
+                    const gpaIndex = name.substring(3);
+                    const gpa = parseFloat(value);
+                    const credits = parseFloat(formData.get(`credits${gpaIndex}`));
+                    
+                    totalWeightedGPA += gpa * credits;
+                    totalCreditHours += credits;
+                }
+            }
+
+            const cgpa = totalWeightedGPA / totalCreditHours;
+            document.getElementById('cgpaValue').textContent = cgpa.toFixed(5);
+            document.getElementById('cgpaResult').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

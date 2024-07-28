@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPA Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>GPA Calculator</h1>
+    <div class="container">
+        <label for="numSubjects">Enter the total number of subjects:</label>
+        <input type="number" id="numSubjects" min="1" max="20"><br><br>
+        <button id="generateTableBtn">Ok</button>
+        <button id="backBtn">Back</button>
+
+        <form id="subjectsForm" style="display:none;" onsubmit="calculateGPA(event)">
+            <table id="subjectsTable">
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Credits</th>
+                        <th>Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <button type="submit">Calculate GPA</button>
+        </form>
+
+        <div id="gpaResult" style="display:none;">
+            <h2>Your GPA is: <span id="gpaValue"></span></h2>
+        </div>
+    </div>
+    <script>
+       
+        document.getElementById('generateTableBtn').addEventListener('click', function() {
+            const numSubjects = document.getElementById('numSubjects').value;
+            const subjectsForm = document.getElementById('subjectsForm');
+            const subjectsTable = document.getElementById('subjectsTable').getElementsByTagName('tbody')[0];
+
+            if (numSubjects > 0) {
+                subjectsForm.style.display = 'block';
+                subjectsTable.innerHTML = '';
+
+                for (let i = 0; i < numSubjects; i++) {
+                    const row = subjectsTable.insertRow();
+                    const cell1 = row.insertCell(0);
+                    const cell2 = row.insertCell(1);
+                    const cell3 = row.insertCell(2);
+
+                    cell1.innerHTML = `<input type="text" placeholder="Subject name" name="subject${i+1}">`;
+                    cell2.innerHTML = `<input type="text" placeholder="Credits" name="credits${i+1}" pattern="^[0-9]*[.]?[0-9]+$" title="Please enter a valid number" required>`;
+
+                    cell3.innerHTML = `
+                        <select name="grade${i+1}" required>
+                          <option value="O">O</option>
+                            <option value="A+">A+</option>
+                            <option value="A">A</option>
+                            <option value="B+">B+</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="U">U</option>
+                        </select>`;
+                }
+            } else {
+                alert('Please enter a valid number of subjects.');
+            }
+        });
+
+      
+        document.getElementById('backBtn').addEventListener('click', function() {
+            window.location.href = 'index.html';
+        });
+
+       
+        function calculateGPA(event) {
+            event.preventDefault();
+
+            const form = document.getElementById('subjectsForm');
+            const formData = new FormData(form);
+
+            let totalCredits = 0;
+            let totalPoints = 0;
+
+          
+            const gradeValues = {
+                'O': 10,
+                'A+': 9,
+                'A': 8,
+                'B+': 7,
+                'B': 6,
+                'C': 5,
+                'U': 0
+            };
+
+            for (let [name, value] of formData.entries()) {
+    if (name.startsWith('credits')) {
+        const index = name.replace('credits', '');
+        const credits = parseFloat(value);
+        const grade = formData.get(`grade${index}`);
+        const gradeValue = gradeValues[grade];
+
+        if (gradeValue > 0) {
+            totalCredits += credits;
+        }
+        totalPoints += credits * gradeValue;
+    }
+}
+
+const gpa =  totalPoints / totalCredits;
+document.getElementById('gpaValue').textContent = gpa.toFixed(5);
+            document.getElementById('gpaResult').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
