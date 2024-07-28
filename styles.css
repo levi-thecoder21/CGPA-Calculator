@@ -80,6 +80,7 @@ select {
     margin-top: 10px;
     box-sizing: border-box; 
     text-align: start;
+    width: calc(100% - 22px);
 }
 
 select:focus {
